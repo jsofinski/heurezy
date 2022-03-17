@@ -1,10 +1,11 @@
 include("utils.jl")
 # include("draw.jl")
 include("randomtsp.jl")
+include("algotihms.jl")
 
 
-# tsp = readTSPLIB(:gr24)
-# path = [16, 11, 3, 7, 6, 24, 8, 21, 5, 10, 17, 22, 18, 19, 15, 2, 20, 14, 13, 9, 23, 4, 12, 1]
+tsp = readTSPLIB(:gr24)
+path = [16, 11, 3, 7, 6, 24, 8, 21, 5, 10, 17, 22, 18, 19, 15, 2, 20, 14, 13, 9, 23, 4, 12, 1]
 
 
 # 1
@@ -37,3 +38,37 @@ include("randomtsp.jl")
 # 6
 # println(PRD(1278, 1100))
 # println(PRDString(1278, 1100))
+
+
+
+
+
+
+
+
+# 1 k-random
+
+
+# 2 najbliższego sąsiada
+newPath = closestNeighbourAlgorithm(tsp)
+println("Closest neighbour:")
+println(newPath)
+println(objectiveFunction(tsp, newPath))
+# println("Optimal:")
+# println(path)
+# println(TSPLIB.Optimals[:gr24])
+
+# 3 rozszerzona najbliższego sąsiada
+newPath = betterClosestNeighbourAlgorithm(tsp)
+println("Better closest neighbour:")
+println(newPath)
+println(objectiveFunction(tsp, newPath))
+println("Optimal:")
+println(path)
+println(TSPLIB.Optimals[:gr24])
+
+
+
+# 2opt
+# newPath = twoOptAlgorithm(tsp)
+# println(newPath)
