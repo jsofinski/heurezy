@@ -8,7 +8,7 @@ include("utils.jl")
 function closestNeighbourAlgorithm(tsp)
     startPosition = 1
     mySize = size(tsp.weights, 1) 
-    cycle = zeros(Int, mySize, 1)
+    cycle = [1:mySize;]
     banned = ones(Int, mySize, 1)
     cycle[1] = startPosition
     banned[startPosition] = 1
@@ -26,11 +26,11 @@ end
 
 function betterClosestNeighbourAlgorithm(tsp)
     mySize = size(tsp.weights, 1) 
-    bestPath = zeros(Int, mySize, 1)
+    bestPath = [1:mySize;]
     bestPathLength = 0;
     for i in 1:mySize
         startPosition = i
-        currentCycle = zeros(Int, mySize, 1)
+        currentCycle = [1:mySize;]
         currentCycle[1] = startPosition
         banned = ones(Int, mySize, 1)
         banned[startPosition] = 1
@@ -52,36 +52,35 @@ function betterClosestNeighbourAlgorithm(tsp)
     return bestPath
 end  
 
-# DOESNT WORK YET
 function twoOptAlgorithm(tsp)
     mySize = size(tsp.weights, 1)
     path = [1:mySize;]
-    # println(path)
-
+    
     bestI = 1
-    bestJ = 2
+    bestJ = 1
+    beforeValue = 0
     bestWeight = objectiveFunction(tsp, path)
     currentWeight = objectiveFunction(tsp, path)
-    while true
+
+    while beforeValue != bestWeight
+        beforeValue = bestWeight
         for i in 1:mySize
             for j in i+1:mySize
-                currentPath = path
-                currentPath = swapNodesInPath(currentPath, path[i], path[j])
+                currentPath = copy(path)
+                currentPath = swapNodesInPath(currentPath, i, j)
                 currentWeight = objectiveFunction(tsp, currentPath) 
-                # println(bestJ == j)
-                # println(j, " ", typeof(j), " ", bestJ, " ", typeof(bestJ) )
-                if (currentWeight < bestWeight)
+                if (currentWeight <= bestWeight)
                     bestWeight = currentWeight
-                    bestI = path[i]
-                    bestJ = path[j]
+                    bestI = i
+                    bestJ = j
                 end
+                # print(currentWeight, " ")
+                # println(bestWeight)
             end
         end
-        if currentWeight == bestWeight
-            break
-        end
+        # println(path)
         path = swapNodesInPath(path, bestI, bestJ)
-        println(path)
+        # println(objectiveFunction(tsp, path))
     end
     return path
 end  

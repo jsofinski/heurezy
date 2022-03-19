@@ -43,7 +43,10 @@ path = [16, 11, 3, 7, 6, 24, 8, 21, 5, 10, 17, 22, 18, 19, 15, 2, 20, 14, 13, 9,
 
 
 
-
+# Optimal
+println("Optimal:")
+println(path)
+println(TSPLIB.Optimals[:gr24])
 
 
 # 1 k-random
@@ -54,21 +57,17 @@ newPath = closestNeighbourAlgorithm(tsp)
 println("Closest neighbour:")
 println(newPath)
 println(objectiveFunction(tsp, newPath))
-# println("Optimal:")
-# println(path)
-# println(TSPLIB.Optimals[:gr24])
+
 
 # 3 rozszerzona najbliższego sąsiada
 newPath = betterClosestNeighbourAlgorithm(tsp)
 println("Better closest neighbour:")
 println(newPath)
 println(objectiveFunction(tsp, newPath))
-println("Optimal:")
-println(path)
-println(TSPLIB.Optimals[:gr24])
-
 
 
 # 2opt
-# newPath = twoOptAlgorithm(tsp)
-# println(newPath)
+newPath = twoOptAlgorithm(tsp)
+println("2 opt:")
+println(newPath)
+println(objectiveFunction(tsp, newPath))
