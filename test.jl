@@ -50,7 +50,10 @@ println(TSPLIB.Optimals[:gr24])
 
 
 # 1 k-random
-
+newPath = krandom(tsp, 20000)
+println("Krandom:")
+println(newPath)
+println(objectiveFunction(tsp, newPath))
 
 # 2 najbliższego sąsiada
 newPath = closestNeighbourAlgorithm(tsp)
@@ -67,7 +70,7 @@ println(objectiveFunction(tsp, newPath))
 
 
 # 2opt
-newPath = twoOptAlgorithm(tsp)
+newPath = twoOptAlgorithm(tsp, closestNeighbourAlgorithm)
 println("2 opt:")
 println(newPath)
 println(objectiveFunction(tsp, newPath))
