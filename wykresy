@@ -1,3 +1,6 @@
+Dane dla plansz euklidesowych: plansza 707x707
+Dane dla plansz innych: lowerBound: 20, upperBound:1000
+
 (Kuba) Krandom (dla każdego typu Asymetryczny, Symetryczny, Euklidesowy):
 dla różnych k mierzymy czas wykonania (min, max, średnia) i efektywność (min, max, średnia),
 generujemy instancje losowe o kroku 20 węzłów i każdy krok powtarzamy 50 razy.
