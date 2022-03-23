@@ -1,0 +1,32 @@
+(Kuba) Krandom (dla każdego typu Asymetryczny, Symetryczny, Euklidesowy):
+dla różnych k mierzymy czas wykonania (min, max, średnia) i efektywność (min, max, średnia),
+generujemy instancje losowe o kroku 20 węzłów i każdy krok powtarzamy 50 razy.
+
+(Mateusz) 2-OPT (dla każdego typu Asymetryczny, Symetryczny, Euklidesowy) :
+dla różnych algorytmów początkowych (oprócz krandom) mierzymy czas wykonania (min, max, średnia) i efektywność (min, max, średnia), generujemy instancje losowe o kroku 20 węzłów i każdy krok powtarzamy 50 razy.
+
+(Mateusz) 2-OPT krandom (dla każdego typu Asymetryczny, Symetryczny, Euklidesowy):
+dla różnych wartości początkowych k mierzymy czas wykonania (min, max, średnia) i efektywność (min, max, średnia),
+generujemy instancje losowe o kroku 20 węzłów i każdy krok powtarzamy 50 razy.
+
+(Kuba) Porównanie closestNeighbour z betterClosestNeighbour (dla każdego typu Asymetryczny, Symetryczny, Euklidesowy):
+dla obu algorytmów mierzymy czas wykonania (min, max, średnia) i efektywność (min, max, średnia), generujemy instancje losowe o kroku 20 węzłów i każdy krok powtarzamy 50 razy i porównujemy.
+
+
+wszystko niżej chwilowo nie
+Krandom TSPLIB:
+dla różnych k mierzymy czas wykonania (min, max, średnia) i efektywność (min, max, średnia),
+generujemy instancje z TSPLIB.
+
+2-OPT TSPLIB:
+dla różnych algorytmów początkowych (oprócz krandom) mierzymy czas wykonania (min, max, średnia) i efektywność (min, max, średnia),generujemy instancje z TSPLIB.
+ 
+
+2-OPT krandom TSPLIB:
+dla różnych wartości początkowych k mierzymy czas wykonania (min, max, średnia) i efektywność (min, max, średnia),
+generujemy instancje z TSPLIB.
+
+
+Porównanie closestNeighbour z betterClosestNeighbour TSPLIB:
+dla obu algorytmów mierzymy czas wykonania (min, max, średnia) i efektywność (min, max, średnia), generujemy instancje z TSPLIB.
+ 
