@@ -85,9 +85,29 @@ function twoOptAlgorithm(tsp, baseFunction)
     beforeValue = bestWeight
     for i in 1:mySize
       for j in i+1:mySize
+        # println(beforeValue)
         currentPath = copy(path)
-        currentPath = swapNodesInPath(currentPath, i, j)
-        currentWeight = objectiveFunction(tsp, currentPath)
+        currentPath = invert(currentPath, i, j)
+        difference = 0
+        leftI = i-1
+        if leftI == 0
+            leftI = mySize
+        end
+        rightI = i+1
+        leftJ = j-1
+        rightJ = j+1
+        if rightJ > mySize 
+            rightJ = 1
+        end
+        difference -= tsp.weights[currentPath[leftI], currentPath[i]]
+        difference -= tsp.weights[currentPath[j], currentPath[rightJ]]
+    
+        difference += tsp.weights[currentPath[leftI], currentPath[j]]
+        difference += tsp.weights[currentPath[i], currentPath[rightJ]]
+        currentWeight = beforeValue - difference
+        # println(difference)
+        # currentWeight = objectiveFunction(tsp, currentPath)
+
         if (currentWeight <= bestWeight)
           bestWeight = currentWeight
           bestI = i
@@ -98,7 +118,7 @@ function twoOptAlgorithm(tsp, baseFunction)
       end
     end
     # println(path)
-    path = swapNodesInPath(path, bestI, bestJ)
+    path = invert(path, bestI, bestJ)
     # println(objectiveFunction(tsp, path))
   end
   return path
