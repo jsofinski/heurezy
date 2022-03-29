@@ -25,12 +25,12 @@ end
 
 
 function closestNeighbourAlgorithm(tsp)
-  startPosition = 1
+  startPosition = 7
   mySize = size(tsp.weights, 1)
   cycle = [1:mySize;]
   banned = ones(Int, mySize, 1)
   cycle[1] = startPosition
-  banned[startPosition] = 1
+  banned[startPosition] = 0
 
   currentPostion = startPosition
 
@@ -50,9 +50,18 @@ function betterClosestNeighbourAlgorithm(tsp)
   for i in 1:mySize
     startPosition = i
     currentCycle = [1:mySize;]
-    currentCycle[1] = startPosition
+    for i in 1:mySize
+      currentCycle[i] = (i+startPosition-1)
+      if currentCycle[i] > mySize
+        currentCycle[i] = currentCycle[i] - mySize
+      end
+    end
+    # currentCycle = [1:mySize;]
+    # currentCycle[1] = startPosition
+    # println(currentCycle)
+    
     banned = ones(Int, mySize, 1)
-    banned[startPosition] = 1
+    banned[startPosition] = 0
 
     currentPostion = startPosition
 
