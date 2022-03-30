@@ -6,7 +6,7 @@ function genAsymmetricalRandomTsp(numOfNodes::Int, weightLowerBound::Int, weight
   tsp = readTSPLIB(:gr17)
   name = @sprintf("asymmetrical%d-%d-%d", numOfNodes, weightLowerBound, weightUpperBound)
   dimension = numOfNodes
-  weights = zeros(numOfNodes, numOfNodes)
+  weights = zeros(Int64,numOfNodes, numOfNodes)
   for i in 1:numOfNodes
     for j in 1:numOfNodes
       weights[i, j] = rand(weightLowerBound:weightUpperBound)
@@ -19,7 +19,7 @@ function genSymmetricalRandomTsp(numOfNodes::Int, weightLowerBound::Int, weightU
   tsp = readTSPLIB(:gr17)
   name = @sprintf("symmetrical%d-%d-%d", numOfNodes, weightLowerBound, weightUpperBound)
   dimension = numOfNodes
-  weights = zeros(numOfNodes, numOfNodes)
+  weights = zeros(Int64 ,numOfNodes, numOfNodes)
 	for i in 1:numOfNodes
 		for j in i:numOfNodes
       dist = rand(weightLowerBound:weightUpperBound)
@@ -34,7 +34,7 @@ function genEuclidianRandomTsp(numOfNodes::Int, maxX::Int, maxY::Int)
   tsp = readTSPLIB(:berlin52)
   name = @sprintf("euclidian%d-%d-%d", numOfNodes, maxX, maxY)
   dimension = numOfNodes
-  weights = zeros(numOfNodes, numOfNodes)
+  weights = zeros(Int64 ,numOfNodes, numOfNodes)
   nodes = zeros(numOfNodes, 2)
   for i in 1:numOfNodes
     nodes[i, 1] = rand(0:maxX)
