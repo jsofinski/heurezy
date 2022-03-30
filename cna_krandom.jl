@@ -10,7 +10,7 @@ using Plots
 minSize = 20
 step = 20
 maxSize = 200
-numberOfSamples = 50
+numberOfSamples = 10
 
 atsp = genAsymmetricalRandomTsp(200, 20, 1000)
 tsp = genSymmetricalRandomTsp(200, 20, 1000)
@@ -412,7 +412,55 @@ function neighbours()
                 minCNETSPTime[i] = cnTimeETSP
             end
             avgCNETSPTime[i] += cnTimeETSP
-            if (maxCNETSPTime[i] == 0 || maxCNETSPTime[i] < cnTimeETSP)
+            if (maxCNETSPTime[i] == 0 || maxCNETSPTime[i] < cnTimeET
+                # println("atsp min:")
+                # println(minATSP)
+                # println("atsp avg:")
+                # println(avgATSP)
+                # println("atsp max:")
+                # println(maxATSP)
+                # println()
+                # println("atsp min time:")
+                # println(minATSPTime)
+                # println("atsp avg time:")
+                # println(avgATSPTime)
+                # println("atsp max time:")
+                # println(maxATSPTime)
+                # println()
+                # println()
+            
+                # println("tsp min:")
+                # println(minTSP)
+                # println("tsp avg:")
+                # println(avgTSP)
+                # println("tsp max:")
+                # println(maxTSP)
+                # println()
+                # println("tsp min time:")
+                # println(minTSPTime)
+                # println("tsp avg time:")
+                # println(avgTSPTime)
+                # println("tsp max time:")
+                # println(maxTSPTime)
+                # println()
+                # println()
+            
+                # println("etsp min:")
+                # println(minETSP)
+                # println("etsp avg:")
+                # println(avgETSP)
+                # println("etsp max:")
+                # println(maxETSP)
+                # println()
+                # println("etsp min time:")
+                # println(minETSPTime)
+                # println("etsp avg time:")
+                # println(avgETSPTime)
+                # println("etsp max time:")
+                # println(maxETSPTime)
+                # println()
+                # println()
+            )
                 maxCNETSPTime[i] = cnTimeETSP
             end
 
@@ -547,5 +595,194 @@ function neighbours()
 end
 
 
+
+function allCompared()
+    numberOfTests = Int((maxSize-minSize)/step+1)
+    # println(numberOfTests)
+    println("kRandom, neighbours, 2opt")
+    k = 10000
+    avgATSPKRandom = zeros(Int, numberOfTests, 1)
+    avgTSPKRandom = zeros(Int, numberOfTests, 1)
+    avgETSPKRandom = zeros(Int, numberOfTests, 1)
+
+    avgATSPTimeKRandom = zeros(Float64, numberOfTests, 1)
+    avgTSPTimeKRandom = zeros(Float64, numberOfTests, 1)
+    avgETSPTimeKRandom = zeros(Float64, numberOfTests, 1)
+
+
+    avgATSPNeighbour = zeros(Int, numberOfTests, 1)
+    avgTSPNeighbour = zeros(Int, numberOfTests, 1)
+    avgETSPNeighbour = zeros(Int, numberOfTests, 1)
+
+    avgATSPTimeNeighbour = zeros(Float64, numberOfTests, 1)
+    avgTSPTimeNeighbour = zeros(Float64, numberOfTests, 1)
+    avgETSPTimeNeighbour = zeros(Float64, numberOfTests, 1)
+
+
+    avgATSP2Opt = zeros(Int, numberOfTests, 1)
+    avgTSP2Opt = zeros(Int, numberOfTests, 1)
+    avgETSP2Opt = zeros(Int, numberOfTests, 1)
+
+    avgATSPTime2Opt = zeros(Float64, numberOfTests, 1)
+    avgTSPTime2Opt = zeros(Float64, numberOfTests, 1)
+    avgETSPTime2Opt = zeros(Float64, numberOfTests, 1)
+
+
+    for i in 1:numberOfTests
+        currentSize = minSize + step * (i-1)
+        println(i)
+        # println(currentSize)
+
+        for j in 1:numberOfSamples
+            atsp = genAsymmetricalRandomTsp(currentSize, 20, 1000)
+            tsp = genSymmetricalRandomTsp(currentSize, 20, 1000)
+            etsp = genEuclidianRandomTsp(currentSize, 707, 707)
+
+            atspPathKRandom = krandom(atsp, k)
+            atspTimeKRandom = @elapsed krandom(atsp, k)
+            atspWeightKRandom = objectiveFunction(atsp, atspPathKRandom)
+
+            tspPathKRandom = krandom(tsp, k)
+            tspTimeKRandom = @elapsed krandom(tsp, k)
+            tspWeightKRandom = objectiveFunction(tsp, tspPathKRandom)
+
+            etspPathKRandom = krandom(etsp, k)
+            etspTimeKRandom = @elapsed krandom(etsp, k)
+            etspWeightKRandom = objectiveFunction(etsp, etspPathKRandom)
+
+
+
+            atspPathNeighbour = betterClosestNeighbourAlgorithm(atsp)
+            atspTimeNeighbour = @elapsed krandom(atsp, k)
+            atspWeightNeighbour = objectiveFunction(atsp, atspPathNeighbour)
+
+            tspPathNeighbour = betterClosestNeighbourAlgorithm(tsp)
+            tspTimeNeighbour = @elapsed krandom(tsp, k)
+            tspWeightNeighbour = objectiveFunction(tsp, tspPathNeighbour)
+
+            etspPathNeighbour = betterClosestNeighbourAlgorithm(etsp)
+            etspTimeNeighbour = @elapsed krandom(etsp, k)
+            etspWeightNeighbour = objectiveFunction(etsp, etspPathNeighbour)
+
+
+
+            atspPath2Opt = twoOptAlgorithm(atsp, closestNeighbourAlgorithm)
+            atspTime2Opt = @elapsed krandom(atsp, k)
+            atspWeight2Opt = objectiveFunction(atsp, atspPath2Opt)
+
+            tspPath2Opt = twoOptAlgorithm(tsp, closestNeighbourAlgorithm)
+            tspTime2Opt = @elapsed krandom(tsp, k)
+            tspWeight2Opt = objectiveFunction(tsp, tspPath2Opt)
+
+            etspPath2Opt= twoOptAlgorithm(etsp, closestNeighbourAlgorithm)
+            etspTime2Opt = @elapsed krandom(etsp, k)
+            etspWeight2Opt = objectiveFunction(etsp, etspPath2Opt)
+
+
+           
+            avgATSPKRandom[i] += atspWeightKRandom
+            avgTSPKRandom[i] += tspWeightKRandom
+            avgETSPKRandom[i] += etspWeightKRandom
+
+            avgATSPTimeKRandom[i] += atspTimeKRandom
+            avgTSPTimeKRandom[i] += tspTimeKRandom
+            avgETSPTimeKRandom[i] += etspTimeKRandom
+
+
+            avgATSPNeighbour[i] += atspWeightNeighbour
+            avgTSPNeighbour[i] += tspWeightNeighbour
+            avgETSPNeighbour[i] += etspWeightNeighbour
+
+            avgATSPTimeNeighbour[i] += atspTimeNeighbour
+            avgTSPTimeNeighbour[i] += tspTimeNeighbour
+            avgETSPTimeNeighbour[i] += etspTimeNeighbour
+
+
+            avgATSP2Opt[i] += atspWeight2Opt
+            avgTSP2Opt[i] += tspWeight2Opt
+            avgETSP2Opt[i] += etspWeight2Opt
+
+            avgATSPTime2Opt[i] += atspTime2Opt
+            avgTSPTime2Opt[i] += tspTime2Opt
+            avgETSPTime2Opt[i] += etspTime2Opt
+
+        end
+        avgATSPKRandom[i] = round(avgATSPKRandom[i]/numberOfSamples)
+        avgTSPKRandom[i] = round(avgTSPKRandom[i]/numberOfSamples)
+        avgETSPKRandom[i] = round(avgETSPKRandom[i]/numberOfSamples)
+
+        avgATSPTimeKRandom[i] = (avgATSPTimeKRandom[i]/numberOfSamples)
+        avgTSPTimeKRandom[i] = (avgTSPTimeKRandom[i]/numberOfSamples)
+        avgETSPTimeKRandom[i] = (avgETSPTimeKRandom[i]/numberOfSamples)
+
+
+        avgATSPNeighbour[i] = round(avgATSPNeighbour[i]/numberOfSamples)
+        avgTSPNeighbour[i] = round(avgTSPNeighbour[i]/numberOfSamples)
+        avgETSPNeighbour[i] = round(avgETSPNeighbour[i]/numberOfSamples)
+
+        avgATSPTimeNeighbour[i] = (avgATSPTimeNeighbour[i]/numberOfSamples)
+        avgTSPTimeNeighbour[i] = (avgTSPTimeNeighbour[i]/numberOfSamples)
+        avgETSPTimeNeighbour[i] = (avgETSPTimeNeighbour[i]/numberOfSamples)
+
+
+        avgATSP2Opt[i] = round(avgATSP2Opt[i]/numberOfSamples)
+        avgTSP2Opt[i] = round(avgTSP2Opt[i]/numberOfSamples)
+        avgETSP2Opt[i] = round(avgETSP2Opt[i]/numberOfSamples)
+
+        avgATSPTime2Opt[i] = (avgATSPTime2Opt[i]/numberOfSamples)
+        avgTSPTime2Opt[i] = (avgTSPTime2Opt[i]/numberOfSamples)
+        avgETSPTime2Opt[i] = (avgETSPTime2Opt[i]/numberOfSamples)
+    end
+
+    x = 20:20:200
+    plot(x, avgATSPTimeKRandom, label = "KRandom", title = "atsp time", lw = 3, size=(1200,800))
+    plot!(x, avgATSPTimeNeighbour, label = "Better closet neighbour", lw = 3)
+    plot!(x, avgATSPTime2Opt, label = "2 Opt", lw = 3)
+    xlabel!("Number of nodes")
+    ylabel!("Time")
+    savefig("./plots/allCompared/atsptime.png")
+
+    plot(x, avgTSPTimeKRandom, label = "KRandom", title = "tsp time", lw = 3, size=(1200,800))
+    plot!(x, avgTSPTimeNeighbour, label = "Better closet neighbour", lw = 3)
+    plot!(x, avgTSPTime2Opt, label = "2 Opt", lw = 3)
+    xlabel!("Number of nodes")
+    ylabel!("Time")
+    savefig("./plots/allCompared/tsptime.png")
+
+    plot(x, avgETSPKRandom, label = "KRandom", title = "etsp efficiency", lw = 3, size=(1200,800))
+    plot!(x, avgETSPNeighbour, label = "Better closet neighbour", lw = 3)
+    plot!(x, avgETSP2Opt, label = "2 Opt", lw = 3)
+    xlabel!("Number of nodes")
+    ylabel!("Time")
+    savefig("./plots/allCompared/etsptime.png")
+
+    plot(x, avgATSPKRandom, label = "KRandom", title = "atsp efficiency", lw = 3, size=(1200,800))
+    plot!(x, avgATSPNeighbour, label = "Better closet neighbour", lw = 3)
+    plot!(x, avgATSP2Opt, label = "2 Opt", lw = 3)
+    xlabel!("Number of nodes")
+    ylabel!("Sum of weights")
+    savefig("./plots/allCompared/atspeff.png")
+
+    plot(x, avgTSPKRandom, label = "KRandom", title = "tsp efficiency", lw = 3, size=(1200,800))
+    plot!(x, avgTSPNeighbour, label = "Better closet neighbour", lw = 3)
+    plot!(x, avgTSP2Opt, label = "2 Opt", lw = 3)
+    xlabel!("Number of nodes")
+    ylabel!("Sum of weights")
+    savefig("./plots/allCompared/tspeff.png")
+
+    plot(x, avgETSPKRandom, label = "KRandom", title = "etsp efficiency", lw = 3, size=(1200,800))
+    plot!(x, avgETSPNeighbour, label = "Better closet neighbour", lw = 3)
+    plot!(x, avgETSP2Opt, label = "2 Opt", lw = 3)
+    xlabel!("Number of nodes")
+    ylabel!("Sum of weights")
+    savefig("./plots/allCompared/etspeff.png")
+
+
+
+end
+
+
 # neighbours()
-kRandom()
+# kRandom()
+
+allCompared()
