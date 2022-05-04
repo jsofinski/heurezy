@@ -63,6 +63,26 @@ function getClosestNeighbourBanned(tsp, node::Int, banned::Array{Int})
     return closestNeighbour
 end
 
+
+struct InvertResult
+  from::Int64
+  to::Int64
+  fitness::Float64
+end
+
+function allInverts(tsp ,path)
+  result = Vector{InvertResult}(undef, 0)
+  for i in 1:length(path)
+    for j in i+1:length(path)
+      invert(path, i, j)
+      fitness = objectiveFunction(tsp, path)
+      append!(result, [InvertResult(i, j, fitness)])
+      invert(path, j, i)
+    end
+  end
+  return result
+end
+
 function getPathFromInput() 
     print("Size:\n") 
     size = parse(Int, readline())
