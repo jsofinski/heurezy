@@ -119,10 +119,12 @@ function swapNodesInPath(path, i, j)
 end
 
 function invert(path, i, j)
-    for k in 0:Int(ceil((j - i)/2)-1) 
-        temp = path[i+k]
-        path[i+k] = path[j-k]
-        path[j-k] = temp
+    l = min(i, j)
+    r = max(i, j)
+    for k in 0:Int(ceil((r - l)/2)-1) 
+        temp = path[l+k]
+        path[l+k] = path[r-k]
+        path[r-k] = temp
         # println("change: ", i+k, " : ", j-k)
     end
     return path

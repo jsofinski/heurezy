@@ -6,8 +6,9 @@ function allInvertTest()
 end
 function test() 
     tsp = readTSPLIB(:gr24)
-    tabuSearch(tsp,200,betterClosestNeighbourAlgorithm)
+    tabuSearch(tsp,1000,closestNeighbourAlgorithm, 2000)
 end
 
 
-allInvertTest()
+# allInvertTest()
+test()
