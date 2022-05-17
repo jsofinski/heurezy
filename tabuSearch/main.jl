@@ -14,7 +14,6 @@ struct LongTermMemoryObject
 end
 
 function tabuSearch(tsp, maxIterations, baseFunction, tabuSize, allIterationsMax)
-	println("starting tabu search")
   tenure = Queue{Tuple{Int,Int}}()
   tenureSet = Set{Tuple{Int,Int}}()
   longTermMemory = Queue{LongTermMemoryObject}()
@@ -104,8 +103,7 @@ function tabuSearch(tsp, maxIterations, baseFunction, tabuSize, allIterationsMax
     end
 
   end
-  println(objectiveFunction(tsp, globalBestPath))
-  println(globalBestPath)
+  return objectiveFunction(tsp, globalBestPath)
 end
 
 
