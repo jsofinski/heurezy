@@ -1,0 +1,32 @@
+Podział prac researchu:
+
+1. Metoda generowania populacji początkowej i jej rozmiar.
+2. Liczba populacji (wyspy) i struktura połączeń (migracji) między innymi.
+3. Możliwość przechowywania dodatkowej informacji o osobniku (wiek, położenie itp.).
+4. Wybór metody selekcji.
+5. Elitaryzm.
+6. Wybór operatora krzyżowania.
+7. Metoda poprawiania pojedynczego osobnika.
+8. Wybór operatora mutacji.
+9. Wykrywanie i przeciwdziałanie stagnacji oraz zbieżności populacji.
+10. Warunek stopu algorytmu.
+11. Optymalizacje kodu.
+12. Wykorzystanie obliczeń równoległych.
+
+
+
+Mateusz
+Po 1:
+zarys algorytmu i podjęcie decyzji projektówych, implementacja populacji początkowej
+
+Kuba
+Po 2:
+Ewaluacja i selekcja, krzyżowanie.
+
+Mateusz
+Po 3:
+Mutacja, pomiary
+
+Kuba
+Po 4:
+Sprawko
