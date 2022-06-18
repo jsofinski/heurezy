@@ -10,7 +10,7 @@ using TSPLIB
 # The most basic one is a random population generator.
 # memify - function (tsp, path) -> path, takes the path and tries to make it better. The most basic case is an identity function.
 # maxIterations - stop condition
-function populationSearch(tsp, islandGetters, memify, maxIterations, populationSize)
+function populationSearch(tsp, islandGetters, crossoverFunc, memify, maxIterations, migrationIterations, populationSize, toMigrate)
   iteration = 0
   islands = Array{Array{Int}}[]
   for i in 1:length(islandGetters)
@@ -30,9 +30,9 @@ function populationSearch(tsp, islandGetters, memify, maxIterations, populationS
     end
   end
   bestPath = currentIsland[bestIndex]
-  println("Best fitness in first generation:")
-  println(bestFitness)
-  println(currentIsland[bestIndex])
+  #println("Best fitness in first generation:")
+  #println(bestFitness)
+  #println(currentIsland[bestIndex])
 
   NOIslands = length(islands)
   while true 
@@ -54,26 +54,38 @@ function populationSearch(tsp, islandGetters, memify, maxIterations, populationS
         randFirst = rand(1:size)
         randSecond = rand(1:size)
         # tempchildren = partiallyMappedCrossover(currentIsland[randFirst], currentIsland[randSecond])
-        tempchildren = orderedCrossover(currentIsland[randFirst], currentIsland[randSecond])
+        tempchildren = crossoverFunc(currentIsland[randFirst], currentIsland[randSecond])
 
         # mutacja
         randFirst = rand(1:length(tempchildren[1]))
         randSecond = rand(1:length(tempchildren[1]))
         tempchildren[1] = swapNodesInPath(tempchildren[1], randFirst, randSecond)
         tempchildren[2] = swapNodesInPath(tempchildren[2], randFirst, randSecond)
+				memify(tsp, tempchildren[1])
+				memify(tsp, tempchildren[2])
         # println(tempchildren[1])
         push!(currentIsland, tempchildren[1])
         push!(currentIsland, tempchildren[2])
       end
     end
-    # memify child
-    
 
     # check maxIterations
     iteration += 1
+
+		if toMigrate && (iteration % migrationIterations == 0)
+			popsToMigrate = max(populationSize / 10, 1)
+			for i in 1:NOIslands
+				for j in 1:popsToMigrate
+					fromIndex = rand(1:length(islands[i]))
+					newIslandIndex = rand(1:length(islands))
+					push!(islands[newIslandIndex], islands[i][fromIndex])
+					deleteat!(islands[i], fromIndex)
+				end
+			end
+		end
     
     if iteration >= maxIterations
-      println("koniec, tutej mozna wybrac najlepsza sciezke elo")
+      #println("koniec, tutej mozna wybrac najlepsza sciezke elo")
       for i in 1:NOIslands
         currentIsland = islands[i]
         bestFitness = objectiveFunction(tsp, currentIsland[1])
@@ -85,9 +97,9 @@ function populationSearch(tsp, islandGetters, memify, maxIterations, populationS
             bestFitness = objectiveFunction(tsp, currentIsland[i])
           end
         end
-        println("Island: ", i)
-        println(bestFitness)
-        println(currentIsland[bestIndex])
+        #println("Island: ", i)
+        #println(bestFitness)
+        #println(currentIsland[bestIndex])
       end
     break
 
@@ -121,7 +133,7 @@ function orderedCrossover(firstParent, secondParent)
   firstChild = zeros(Int, size, 1)
   secondChild = zeros(Int, size, 1)
 
-  randPos = Int(rand(size*1/3:size*2/3))
+	randPos = Int(round(rand(size*1/3:size*2/3)))
   # println(randPos)
   for i in 1:randPos
     firstChild[i] = firstParent[i]
